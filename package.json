@@ -1,0 +1,24 @@
+{
+  "name": "notikha-server",
+  "version": "1.0.0",
+  "description": "Server for the Notikha notes app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "nodemon index.js"
+  },
+  "keywords": [
+    "notikha",
+    "notes",
+    "server"
+  ],
+  "author": "Andrés Hernández (auroszx)",
+  "license": "ISC",
+  "dependencies": {
+    "jsonwebtoken": "^8.3.0",
+    "md5": "^2.2.1",
+    "nodemon": "^1.18.4",
+    "server": "^1.0.18",
+    "sqlite3": "^4.0.2"
+  }
+}
