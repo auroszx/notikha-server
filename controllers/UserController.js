@@ -63,7 +63,7 @@ module.exports = {
 	login: async function(username, password) {
 		var users = await this.checkUser(username, password);
 		if (users.length > 0) {
-			return auth.generate(users[0]);
+			return {status: 200, token: auth.generate(users[0])};
 		}
 		else {
 			return { status: 406, message: "Wrong username/password combination" };

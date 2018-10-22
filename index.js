@@ -1,7 +1,13 @@
 const server = require('server');
 const { get, post, put, del, error } = server.router;
-const { json, status } = server.reply;
+const { json, status, header } = server.reply;
 const user = require('./controllers/UserController');
+
+const cors = [
+  ctx => header("Access-Control-Allow-Origin", "*"),
+  ctx => header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"),
+  ctx => ctx.method.toLowerCase() === 'options' ? 200 : false
+];
 
 var routes = [
 
@@ -25,6 +31,6 @@ var routes = [
 
 
 // Running the server
-server({ security: { csrf: false } }, routes).then(ctx => {
+server({ security: { csrf: false } }, cors, routes).then(ctx => {
   	console.log(`Notikha server running on http://localhost:${ctx.options.port}/`);
 });
