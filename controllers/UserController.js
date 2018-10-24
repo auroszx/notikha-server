@@ -6,10 +6,15 @@ const auth = require('../middleware/Auth');
 module.exports = {
 
 	getUser: async function(user_id, token) {
-		console.log(await auth.verify(token));
-		if (await auth.verify(token)) {
-			db.connect();
-			return db.get("SELECT user_id, user_fullname, user_username, user_email from users WHERE user_id = (?)", [user_id]);
+		if (token != undefined) {
+			var data = await auth.verify(token);
+			if (data.user_id == user_id) {
+				db.connect();
+				return db.get("SELECT user_id, user_fullname, user_username, user_email from users WHERE user_id = (?)", [user_id]);
+			}
+			else {
+				return { status: 403, message: "You are not allowed to see other user's data"};
+			}
 		}
 		else {
 			return { status: 403, message: "You are not allowed to perform this action" };

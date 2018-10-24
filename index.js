@@ -2,6 +2,7 @@ const server = require('server');
 const { get, post, put, del, error } = server.router;
 const { json, status, header } = server.reply;
 const user = require('./controllers/UserController');
+const notes = require('./controllers/NotesController');
 
 const cors = [
   ctx => header("Access-Control-Allow-Origin", "*"),
@@ -24,8 +25,26 @@ var routes = [
 		return json(await user.login(ctx.data.username, ctx.data.password));
 	}),
 
-	// Error handling
-	error(ctx => status(500).send(ctx.error.message))
+
+	// Notes routes
+	get('/notes/user/:id', async ctx => {
+		return json(await notes.getNotesByUser(parseInt(ctx.params.id), ctx.headers.authorization));
+	}),
+
+	post('/notes/create', async ctx => {
+		return json(await notes.createNote(ctx.data.note_title, ctx.data.note_content, ctx.headers.authorization));
+	}),
+
+	del('/notes/delete/:id', async ctx => {
+		return json(await notes.deleteNote(parseInt(ctx.params.id), ctx.headers.authorization));
+	}),
+
+	put('/notes/update', async ctx => {
+		return json(await notes.updateNote(ctx.data.note_id, ctx.data.note_title, ctx.data.note_content, ctx.headers.authorization));
+	}),
+
+	// Extra error handling
+	error(ctx => status(500).json({status: 500, message: ctx.error.message}))
 
 ];
 
