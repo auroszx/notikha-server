@@ -31,6 +31,10 @@ var routes = [
 		return json(await notes.getNotesByUser(parseInt(ctx.params.id), ctx.headers.authorization));
 	}),
 
+	get('/notes/:id', async ctx => {
+		return json(await notes.getNote(parseInt(ctx.params.id), ctx.headers.authorization));
+	}),
+
 	post('/notes/create', async ctx => {
 		return json(await notes.createNote(ctx.data.note_title, ctx.data.note_content, ctx.headers.authorization));
 	}),
