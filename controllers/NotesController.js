@@ -4,16 +4,11 @@ const auth = require('../middleware/Auth');
 
 module.exports = {
 
-	getNotesByUser: async function(user_id, token) {
+	getNotesByUser: async function(token) {
 		if (token != undefined) {
 			var data = await auth.verify(token);
-			if (data.user_id == user_id) {
-				db.connect();
-				return db.get("SELECT * FROM notes WHERE user_id = (?)", [user_id]);
-			}
-			else {
-				return { status: 403, message: "You are not allowed to see other user's notes"};
-			}
+			db.connect();
+			return db.get("SELECT * FROM notes WHERE user_id = (?)", [data.user_id]);
 		}
 		else {
 			return { status: 403, message: "You are not allowed to perform this action" };

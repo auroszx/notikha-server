@@ -6,7 +6,8 @@ const notes = require('./controllers/NotesController');
 
 const cors = [
   ctx => header("Access-Control-Allow-Origin", "*"),
-  ctx => header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"),
+  ctx => header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, authorization"),
+  ctx => header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"),
   ctx => ctx.method.toLowerCase() === 'options' ? 200 : false
 ];
 
@@ -27,8 +28,8 @@ var routes = [
 
 
 	// Notes routes
-	get('/notes/user/:id', async ctx => {
-		return json(await notes.getNotesByUser(parseInt(ctx.params.id), ctx.headers.authorization));
+	get('/notes/user', async ctx => {
+		return json(await notes.getNotesByUser(ctx.headers.authorization));
 	}),
 
 	get('/notes/:id', async ctx => {
