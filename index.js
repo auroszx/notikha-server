@@ -14,8 +14,8 @@ const cors = [
 var routes = [
 
 	// User routes
-	get('/user/:id', async ctx => {
-		return json(await user.getUser(parseInt(ctx.params.id), ctx.headers.authorization));
+	get('/user', async ctx => {
+		return json(await user.getUser(ctx.headers.authorization));
 	}),
 
 	post('/user/create', async ctx => {
